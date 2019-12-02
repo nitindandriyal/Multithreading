@@ -7,7 +7,7 @@ Write your code in this editor and press "Run" button to execute it.
 *******************************************************************************/
 import java.util.concurrent.locks.*; 
 
-public class Main
+public class PingPong
 {
       // public static  ReentrantLock l1= new ReentrantLock();
 	  // public static  ReentrantLock l2= new ReentrantLock();
