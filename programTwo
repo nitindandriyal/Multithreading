@@ -1,0 +1,63 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.concurrent.locks.*; 
+
+public class Main
+{
+      // public static  ReentrantLock l1= new ReentrantLock();
+	  // public static  ReentrantLock l2= new ReentrantLock();
+   static final Lock lock = new ReentrantLock();
+   static final Condition pingC  = lock.newCondition(); 
+   static final Condition pongC = lock.newCondition(); 
+   static class Ping extends Thread{
+   public void run()throws InterruptedException
+    {
+        try{
+    	for(int i=0;i<10;i++){
+    	   //l1.lock();
+    	   lock.lock();
+    	   pongC.await();
+        System.out.println("ping");
+        //l2.unlock();
+        pingC.signal();
+    	}
+        }
+    	finally{
+        lock.unlock();}
+    	
+    }
+    }
+static class Pong extends Thread{
+   public void run()throws InterruptedException
+    {
+        try {
+        for(int i=0;i<10;i++){
+           // l2.lock();
+           lock.lock();
+           pingC.await();
+        System.out.println("pong");
+        //l1.unlock();
+        pongC.signal();
+        }
+        }
+        finally{
+        lock.unlock();}
+        
+    }
+}
+	public static void main(String[] args) {
+		System.out.println("Hello World");
+		/*Runnable obj1=new Runnable();
+		Runnable obj2=new Runnable();*/
+		  Ping ping =new Ping();
+		  Pong pong =new Pong();
+		ping.start();
+		pong.start();
+		
+	}
+}
