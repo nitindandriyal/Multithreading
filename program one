@@ -1,0 +1,69 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+class shared
+{
+  //  private final Lock lock = new ReentrantLock();
+     public void printString(String str) //throws InterruptedException
+    {
+        
+        System.out.println(str);
+    }
+}
+class Ping extends Thread {
+    shared s=new shared();
+    public void run()
+    {
+        s.printString("ping");
+    }
+}
+class Pong extends Thread {
+    shared s=new shared();
+    public void run()
+    {
+        s.printString("pong");
+    }
+}
+public class Main
+{
+	public static void main(String[] args) {
+		//System.out.println("Hello World");
+		Ping ping=new Ping();
+		Pong pong=new Pong();
+		//for (int i=0;i<=4;i++ ) {
+		ping.start();
+		pong.start();
+		try{
+		    ping.join();
+		    pong.join();
+		} 
+  
+        catch(Exception ex) 
+        { 
+            System.out.println("Exception has been" + " caught" + ex); 
+        } 
+        
+        ping.start();
+		pong.start();
+		try{
+		    ping.join();
+		    pong.join();
+		} 
+  
+        catch(Exception ex) 
+        { 
+            System.out.println("Exception has been" + " caught" + ex); 
+        } 
+  
+		
+		//}
+	
+	}
+}
